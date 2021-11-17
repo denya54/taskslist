@@ -15,6 +15,7 @@ type TodolistPropsType = {
     filter: FilterType
     deleteTodolist: (todolistID: string) => void
     changeTaskTitle: (todolistID: string, taskID: string, newName: string) => void
+    changeTodolistTitle: (todolistID: string, newName: string) => void
 }
 
 export const Todolist = (props: TodolistPropsType) => {
@@ -22,21 +23,19 @@ export const Todolist = (props: TodolistPropsType) => {
     const changeFilterClick = (filterValue: FilterType) => props.changeFilter(props.id, filterValue)
     const deleteTaskClick = (taskID: string) => props.deleteTask(props.id, taskID)
 
-    const deleteTodolistClick = () => {
-        props.deleteTodolist(props.id)
-    }
+    const deleteTodolistClick = () => props.deleteTodolist(props.id)
 
-    const addTaskHandler = (newTitle: string) => {
-        props.addTask(props.id, newTitle)
-    }
+    const addTaskHandler = (newTitle: string) => props.addTask(props.id, newTitle)
+    
+    const changeTaskNameHandler = (taskID: string, newName: string) => props.changeTaskTitle(props.id, taskID, newName)
 
-    const changeTaskNameHandler = (taskID: string, newName: string) => {
-        props.changeTaskTitle(props.id, taskID, newName)
-    }
+    const changeTodolistNameHandler = (newName: string) => props.changeTodolistTitle(props.id, newName)
+
 
     return (
         <div>
-            <h3>{props.name}</h3>
+            <h3><EditableSpan taskName={props.name} func={changeTodolistNameHandler}/>
+            </h3>
             <button onClick={deleteTodolistClick}>x</button>
             <AddItemForm func={addTaskHandler}/>
             <ul>
