@@ -1,7 +1,7 @@
 import {FilterType, TodolistType} from "../App";
 import {v1} from "uuid";
 
-type deletedTodolistsActionType = {
+export type deletedTodolistsActionType = {
     type: 'DELETE-TODOLIST', todolistID: string
 }
 export const deleteTodolistAC = (todolistID: string): deletedTodolistsActionType => {
@@ -11,9 +11,9 @@ export const deleteTodolistAC = (todolistID: string): deletedTodolistsActionType
     }
 }
 
-type addTodolistsActionType = { type: 'ADD-TODOLIST', nameNewTodolist: string,  todolistID: string }
+export type addTodolistActionType = { type: 'ADD-TODOLIST', nameNewTodolist: string,  todolistID: string }
 
-export const addTodolistAC = (name: string) : addTodolistsActionType=> {
+export const addTodolistAC = (name: string) : addTodolistActionType => {
     return {
         type: 'ADD-TODOLIST',
         nameNewTodolist: name,
@@ -42,7 +42,7 @@ export const changeTodolistFilterAC = (todolistID: string, filter: FilterType) :
 
 type ActionType =
     deletedTodolistsActionType
-    | addTodolistsActionType
+    | addTodolistActionType
     | changeTodolistTitleActionType
     | changeTodolistFilterActionType
 
