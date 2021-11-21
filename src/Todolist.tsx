@@ -22,13 +22,10 @@ type TodolistPropsType = {
 export const Todolist = React.memo((props: TodolistPropsType) => {
 
     const changeFilterClick = useCallback((filterValue: FilterType) => props.changeFilter(props.id, filterValue), [props.changeFilter, props.id])
-    // const deleteTaskClick = (taskID: string) => props.deleteTask(props.id, taskID)
 
     const deleteTodolistClick = () => props.deleteTodolist(props.id)
 
     const addTaskHandler = useCallback((newTitle: string) => props.addTask(props.id, newTitle), [props.addTask, props.id])
-
-    // const changeTaskNameHandler = useCallback((taskID: string, newName: string) => props.changeTaskTitle(props.id, taskID, newName), [props.changeTaskTitle, props.id])
 
     const changeTodolistNameHandler = useCallback((newName: string) => props.changeTodolistTitle(props.id, newName), [props.changeTodolistTitle, props.id])
 
@@ -56,17 +53,6 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
                                  deleteTask={props.deleteTask}
                                  changeStatus={props.changeStatus}
                                  changeTaskTitle={props.changeTaskTitle}/>
-
-                    // const changeIsDone = (e: ChangeEvent<HTMLInputElement>) => props.changeStatus(props.id, task.id, e.currentTarget.checked)
-                    // return (
-                    //     <li key={task.id} className={task.isDone ? 'is-done' : ''}>
-                    //         <input type="checkbox" checked={task.isDone} onChange={changeIsDone}/>
-                    //         <EditableSpan taskName={task.name}
-                    //                       func={(newName: string) => changeTaskNameHandler(task.id, newName)}/>
-                    //         <button onClick={() => deleteTaskClick(task.id)}>x</button>
-                    //     </li>
-                    //
-                    // )
                 })}
             </ul>
             <div>
