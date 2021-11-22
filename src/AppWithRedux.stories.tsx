@@ -1,5 +1,6 @@
 import AppWithRedux from "./AppWithRedux";
-import {ReduxStoreProviderDecorator} from "./stories/ReduxStoreProviderDecorator";
+
+import {ReduxStoreProviderDecorator} from "./stories/decorators/ReduxStoreProviderDecorator";
 
 export default {
     title: 'AppWithRedux',
@@ -7,7 +8,6 @@ export default {
     decorators: [ReduxStoreProviderDecorator]
 }
 
-export const AppWithReduxDefault = () => {
+export const AppWithReduxExample = () => {
     return <AppWithRedux/>
 }
-
