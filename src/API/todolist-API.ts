@@ -38,10 +38,6 @@ const instance = axios.create({
     }
 })
 
-
-const baseURL = 'https://social-network.samuraijs.com/api/1.1'
-console.log(baseURL + `/up`)
-
 export const todolistAPI = {
     updateTodolist (todolistID: string, newTitle: string) {
         return instance.put<UpdateTodolistResponseType>(`/todo-lists/${todolistID}`, {title: newTitle})
