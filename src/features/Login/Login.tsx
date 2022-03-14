@@ -8,6 +8,8 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
+import {loginTC} from "./auth-reducer";
+import {useDispatch} from "react-redux";
 
 type FormikErrorType = {
     email?: string
@@ -16,8 +18,9 @@ type FormikErrorType = {
 }
 
 
-
 export const Login = () => {
+
+    const dispatch = useDispatch()
 
     const formik = useFormik({
         initialValues: {
@@ -26,7 +29,8 @@ export const Login = () => {
             rememberMe: false
         },
         onSubmit: values => {
-            alert(JSON.stringify(values));
+            dispatch(loginTC(values));
+            formik.resetForm()
         },
         validate: (values) => {
             const errors: FormikErrorType = {};
@@ -37,10 +41,9 @@ export const Login = () => {
             }
             if (!values.password) {
                 errors.password = 'Password is required';
-            } else if (values.password.length < 3 ) {
+            } else if (values.password.length < 3) {
                 errors.password = 'Password must be more 2 symbols';
             }
-
             return errors;
         },
 
@@ -51,47 +54,56 @@ export const Login = () => {
         <Grid item justifyContent={'center'}>
             <form onSubmit={formik.handleSubmit}>
 
-            <FormControl>
-                <FormLabel>
-                    <p>To log in get registered
-                        <a href={'https://social-network.samuraijs.com/'}
-                           target={'_blank'}> here
-                        </a>
-                    </p>
-                    <p>or use common test account credentials:</p>
-                    <p>Email: free@samuraijs.com</p>
-                    <p>Password: free</p>
-                </FormLabel>
+                <FormControl>
+                    <FormLabel>
+                        <p>To log in get registered
+                            <a href={'https://social-network.samuraijs.com/'}
+                               target={'_blank'}> here
+                            </a>
+                        </p>
+                        <p>or use common test account credentials:</p>
+                        <p>Email: free@samuraijs.com</p>
+                        <p>Password: free</p>
+                    </FormLabel>
 
-                <FormGroup>
-                    <TextField label="Email"
-                               margin="normal"
-                               name={'email'}
-                               onChange={formik.handleChange}
-                               value={formik.values.email}
-                               onBlur={formik.handleBlur}
+                    <FormGroup>
+                        <TextField label="Email"
+                                   margin="normal"
+                                   {...formik.getFieldProps('email')}
+                            // name={'email'}
+                            // onChange={formik.handleChange}
+                            // value={formik.values.email}
+                            // onBlur={formik.handleBlur}
 
-                    />
-                    {formik.touched.email && formik.errors.email && <div style={{color: 'red'}}>{formik.errors.email}</div>}
-                    <TextField type="password" label="Password"
-                               margin="normal"
-                               name={'password'}
-                               onChange={formik.handleChange}
-                               value={formik.values.password}
-                               onBlur={formik.handleBlur}
-                    />
-                    {formik.touched.password && formik.errors.password && <div style={{color: 'red'}}>{formik.errors.password}</div>}
+                        />
+                        {formik
+                            .touched.email && formik.errors.email &&
+                        <div style={{color: 'red'}}>{formik.errors.email}</div>
+                        }
+                        <TextField type="password" label="Password"
+                                   margin="normal"
+                                   {...formik.getFieldProps('password')}
+                            // name={'password'}
+                            // onChange={formik.handleChange}
+                            // value={formik.values.password}
+                            // onBlur={formik.handleBlur}
+                        />
+                        {formik.touched.password && formik.errors.password &&
+                        <div style={{color: 'red'}}>{formik.errors.password}</div>}
 
-                    <FormControlLabel label={'Remember me'} control={<Checkbox  name={'rememberMe'}
-                                                                                onChange={formik.handleChange}
-                                                                                value={formik.values.rememberMe}/>}
-                    />
-                    <Button type={'submit'} variant={'contained'} color={'primary'}>
-                        Login
-                    </Button>
-                </FormGroup>
+                        <FormControlLabel label={'Remember me'} control={<Checkbox
+                            {...formik.getFieldProps('rememberMe')}
+                            // name={'rememberMe'}
+                            // onChange={formik.handleChange}
+                            // value={formik.values.rememberMe}
+                        />}
+                        />
+                        <Button type={'submit'} variant={'contained'} color={'primary'}>
+                            Login
+                        </Button>
+                    </FormGroup>
 
-            </FormControl>
+                </FormControl>
             </form>
         </Grid>
     </Grid>
