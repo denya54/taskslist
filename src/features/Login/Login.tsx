@@ -9,7 +9,9 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
 import {loginTC} from "./auth-reducer";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "../../app/store";
+import {Navigate, useNavigate} from "react-router-dom";
 
 type FormikErrorType = {
     email?: string
@@ -20,7 +22,10 @@ type FormikErrorType = {
 
 export const Login = () => {
 
+    const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.auth.isLoggedIn)
+
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const formik = useFormik({
         initialValues: {
@@ -48,6 +53,11 @@ export const Login = () => {
         },
 
     })
+
+    if (isLoggedIn) {
+        // navigate('/')
+       return <Navigate to={'/'}/>
+    }
 
 
     return <Grid container justifyContent={'center'}>

@@ -10,16 +10,14 @@ export type LoginParamsType = {
     captcha?: string
 }
 
-type ResponseLoginType = {
-    resultCode: number
-    messages: Array<string>
-    data: {
-        userId: number
-    }
-}
-
 export const authAPI = {
     login(dataForLogin: LoginParamsType) {
         return instance.post<LoginParamsType, AxiosResponse<ResponseType<{userId: number}>>>(`auth/login`, dataForLogin)
+    },
+    me() {
+        return instance.get<ResponseType<{ id: number, email: string, login: string}>>('auth/me')
+    },
+    logout() {
+        return instance.delete<ResponseType>(`/auth/login`)
     }
 }
