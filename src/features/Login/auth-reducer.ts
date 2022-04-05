@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux'
-import {SetAppErrorActionType, setAppInitializedAC, setAppStatusAC, SetAppStatusActionType} from '../../app/app-reducer'
+import {setAppInitializedAC, setAppStatusAC} from '../../app/app-reducer'
 import {authAPI, LoginParamsType} from "../../api/auth-api";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import {clearTodolistsDataAC} from "../TodolistsList/todolists-reducer";
@@ -37,15 +37,15 @@ const {setIsLoggedInAC} = slice.actions
 
 // thunks
 export const loginTC = (dataForLogin: LoginParamsType) => (dispatch: Dispatch) => {
-    dispatch(setAppStatusAC('loading'))
+    dispatch(setAppStatusAC({status: 'loading'}))
     authAPI.login(dataForLogin)
         .then(res => {
             if (res.data.resultCode === 0) {
                 dispatch(setIsLoggedInAC({value:true}))
-                dispatch(setAppStatusAC('succeeded'))
+                dispatch(setAppStatusAC({status: 'succeeded'}))
             } else {
                 handleServerAppError(res.data, dispatch);
-                dispatch(setAppStatusAC('failed'))
+                dispatch(setAppStatusAC({status: 'failed'}))
             }
         })
         .catch(error => {
@@ -54,12 +54,12 @@ export const loginTC = (dataForLogin: LoginParamsType) => (dispatch: Dispatch) =
 }
 
 export const logoutTC = () => (dispatch: Dispatch) => {
-    dispatch(setAppStatusAC('loading'))
+    dispatch(setAppStatusAC({status: 'loading'}))
     authAPI.logout()
         .then(res => {
             if (res.data.resultCode === 0) {
                 dispatch(setIsLoggedInAC({value: false}))
-                dispatch(setAppStatusAC('succeeded'))
+                dispatch(setAppStatusAC({status: 'succeeded'}))
                 dispatch(clearTodolistsDataAC())
             } else {
                 handleServerAppError(res.data, dispatch)
@@ -72,18 +72,18 @@ export const logoutTC = () => (dispatch: Dispatch) => {
 
 
 export const initializeAppTC = () => (dispatch: Dispatch) => {
-    dispatch(setAppStatusAC('loading'))
+    dispatch(setAppStatusAC({status: 'loading'}))
     authAPI.me().then(res => {
         if (res.data.resultCode === 0) {
             dispatch(setIsLoggedInAC({value: true}));
-            dispatch(setAppStatusAC('succeeded'))
+            dispatch(setAppStatusAC({status: 'succeeded'}))
         } else {
             dispatch(setIsLoggedInAC({value: false}))
-            dispatch(setAppStatusAC('failed'))
+            dispatch(setAppStatusAC({status: 'failed'}))
         }
     })
         .finally(() => {
-            dispatch(setAppInitializedAC(true))
+            dispatch(setAppInitializedAC({isInitialized: true}))
         })
 }
 
