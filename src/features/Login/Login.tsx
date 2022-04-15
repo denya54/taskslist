@@ -9,8 +9,8 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
 import {loginTC} from "./auth-reducer";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../app/store";
+import {useSelector} from "react-redux";
+import {AppRootStateType, useAppDispatch} from "../../app/store";
 import {Navigate, useNavigate} from "react-router-dom";
 
 type FormikErrorType = {
@@ -24,7 +24,7 @@ export const Login = () => {
 
     const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.auth.isLoggedIn)
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
     const formik = useFormik({
@@ -37,26 +37,27 @@ export const Login = () => {
             dispatch(loginTC(values));
             formik.resetForm()
         },
-        validate: (values) => {
-            const errors: FormikErrorType = {};
-            if (!values.email) {
-                errors.email = 'Email is required';
-            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-                errors.email = 'Invalid email address';
-            }
-            if (!values.password) {
-                errors.password = 'Password is required';
-            } else if (values.password.length < 3) {
-                errors.password = 'Password must be more 2 symbols';
-            }
-            return errors;
-        },
+        validate:
+            (values) => {
+                const errors: FormikErrorType = {};
+                if (!values.email) {
+                    errors.email = 'Email is required';
+                } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+                    errors.email = 'Invalid email address';
+                }
+                if (!values.password) {
+                    errors.password = 'Password is required';
+                } else if (values.password.length < 3) {
+                    errors.password = 'Password must be more 2 symbols';
+                }
+                return errors;
+            },
 
     })
 
     if (isLoggedIn) {
         // navigate('/')
-       return <Navigate to={'/'}/>
+        return <Navigate to={'/'}/>
     }
 
 
