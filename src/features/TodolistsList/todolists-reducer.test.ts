@@ -1,8 +1,8 @@
 import {
     addTodolistAC, changeTodolistEntityStatusAC,
     changeTodolistFilterAC,
-    changeTodolistTitleAC, FilterValuesType,
-    removeTodolistAC, setTodolistsAC, TodolistDomainType,
+    changeTodolistTitleAC, fetchTodolistsTC, FilterValuesType,
+    removeTodolistAC, TodolistDomainType,
     todolistsReducer
 } from './todolists-reducer'
 import {v1} from 'uuid'
@@ -66,14 +66,21 @@ test('correct filter of todolist should be changed', () => {
     expect(endState[0].filter).toBe('all')
     expect(endState[1].filter).toBe(newFilter)
 })
-test('todolists should be added', () => {
-
-    const action = setTodolistsAC({todolists: startState})
-
-    const endState = todolistsReducer([], action)
-
-    expect(endState.length).toBe(2)
-})
+// test('todolists should be added', () => {
+//
+//     let payload = {
+//         todolists: [
+//             {id: '1', title: 'What to learn', addedDate: '', order: 0},
+//             {id: '2', title: 'What to buy',  addedDate: '', order: 0}
+//         ]
+//     }
+//
+//     const action = fetchTodolistsTC.fulfilled(payload, 'requestId')
+//
+//     const endState = todolistsReducer([], action)
+//
+//     expect(endState.length).toBe(2)
+// })
 test('correct entity status of todolist should be changed', () => {
     let newStatus: RequestStatusType = 'loading'
 
